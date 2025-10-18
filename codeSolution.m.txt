@@ -1,0 +1,56 @@
+% Solution for the excercises in the DEB workshop, ISEM 2025
+% Nina Marn
+
+%% Mydata
+%--- after data for Tab (cca line 162)
+data.Tab2 = [ ... % time since birth (d), age at birth (d)
+	5  70;
+	10 35;
+	15 28;
+	20 21];
+units.Tab2   = {'C', 'd'};  label.Tab2 = {'temperature', 'age at birth'};  
+bibkey.Tab2 = 'Sutc1993';
+
+data.Ttp = [ ... % time since birth (d), time since birth at puberty (d)
+	5  364;
+	10 154;
+	15 119;
+	20 77];
+units.Ttp   = {'C', 'd'};  label.Ttp = {'temperature', 'time since birth at puberty'};  
+bibkey.Ttp = 'Sutc1993';
+
+
+% for group ploting (cca line 195)
+set3 = {'Tab', 'Tab2'}; comment3 = {'Data for 1, 5, 10, 15, 20C'};
+% add 'set3' in line below, and 'comment3' below that
+
+% Under discussion points, document the change: 
+% e.g. D4 = 'mod_5: added points for Tab and Ttp from Sutc1993'; and pack that into the discussion structure
+
+% References: 
+% add to reference list:
+bibkey = 'Sutc1993'; type = 'misc'; bib = [ ... 
+'author = {David W Sutcliff}, ' ... 
+'title = {REPRODUCTION IN GAMMARUS (CRUSTACEA, AMPHIPODA): BASIC PROCESSES}, ' ...
+'note = {}'];
+metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];
+
+
+%% ---- PREDICT file 
+
+% add temperature corrections to the top of predict file
+ TC_Tab2 = tempcorr(C2K(Tab2(:,1)), T_ref, T_A);
+
+% add calcultations (around line 107)
+ Ea_b2 = a_b ./ TC_Tab2; % d, age at birth at T
+  
+  % Ttp data
+  Et_p = t_p ./ TC_Tab2; %d, time since birth at puberty at T
+
+% pack predictions: 
+ prdData.Tab2 = Ea_b2;
+  prdData.Ttp = Et_p;
+
+
+
+  
